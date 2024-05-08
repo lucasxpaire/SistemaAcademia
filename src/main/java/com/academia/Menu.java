@@ -51,6 +51,7 @@ public class Menu {
                     break;
                 case 7:
                     // Ação: Cadastrar Plano
+                    cadastrarPlano();
                     break;
                 case 8:
                     // Ação: Listar Planos
@@ -58,6 +59,7 @@ public class Menu {
                     break;
                 case 9:
                     // Ação: Cadastrar Exercício
+                    cadastrarExercicio();
                     break;
                 case 10:
                     // Ação: Listar Exercícios
@@ -125,6 +127,26 @@ public class Menu {
         System.out.print("Escolha uma opção: ");
     }
 
+    private static void conectarBancoDados() {
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Conexão com o banco de dados estabelecida.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+        }
+    }
+
+    private static void desconectarBancoDados() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Conexão com o banco de dados encerrada.");
+            } catch (SQLException e) {
+                System.out.println("Erro ao encerrar a conexão com o banco de dados: " + e.getMessage());
+            }
+        }
+    }
+
     private static void listarPlanos() {
         List<Planos> listaPlanos = new ArrayList<>();
         // Obter os planos do banco de dados
@@ -165,24 +187,13 @@ public class Menu {
         Exercicios.exibirExercicios(listaExercicios);
     }
 
-
-    private static void conectarBancoDados() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexão com o banco de dados estabelecida.");
-        } catch (SQLException e) {
-            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
-        }
+    private static void cadastrarPlano(){
+        Planos plano = Planos.criarPlano();
+        Planos.adicionarPlano(plano);
     }
 
-    private static void desconectarBancoDados() {
-        if (connection != null) {
-            try {
-                connection.close();
-                System.out.println("Conexão com o banco de dados encerrada.");
-            } catch (SQLException e) {
-                System.out.println("Erro ao encerrar a conexão com o banco de dados: " + e.getMessage());
-            }
-        }
+    private static void cadastrarExercicio(){
+        Exercicios exercicio = Exercicios.criarExercicio();
+        Exercicios.adicionarExercicio(exercicio);
     }
 }
