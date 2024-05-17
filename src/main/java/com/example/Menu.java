@@ -1,12 +1,15 @@
-package com.academia;
+package com.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import classes.utilities.exerciciosUtils;
-import classes.utilities.planosUtils;
+import com.example.dao.*;
+import com.example.dto.*;
+import com.example.tabelas.*;
+import com.example.util.Util;
+
 
 //import classes.Exercicios;
 //import classes.Planos;
@@ -19,19 +22,18 @@ public class Menu {
     private static Connection connection;
 
     public static void main(String[] args) {
-        conectarBancoDados();
 
         Scanner scanner = new Scanner(System.in);
         boolean sair = false;
 
         while (!sair) {
             exibirMenu();
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpar o buffer do scanner
+            int opcao = Util.solicitarAlternativas(1,17, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
 
             switch (opcao) {
                 case 1:
-                    // Ação: Cadastrar Aluno
+                    Alunos funcoes_alunos = new Alunos();
+                // Ação: Cadastrar Aluno
                     break;
                 case 2:
                     // Ação: Alterar Aluno
@@ -48,6 +50,7 @@ public class Menu {
                 case 6:
                     // Ação: Buscar Aluno por Nome
                     break;
+                    // 
                 case 7:
                     // Ação: Cadastrar Plano
                     planosUtils.cadastrarPlano();
@@ -86,7 +89,6 @@ public class Menu {
                     sair = true;
                     break;
                 default:
-                    System.out.println("Opção inválida!");
             }
 
             if (!sair) {
@@ -98,8 +100,6 @@ public class Menu {
             }
         }
 
-        desconectarBancoDados();
-        scanner.close();
         System.out.println("Programa encerrado.");
     }
 
@@ -126,24 +126,24 @@ public class Menu {
         System.out.print("Escolha uma opção: ");
     }
 
-    private static void conectarBancoDados() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexão com o banco de dados estabelecida.");
-        } catch (SQLException e) {
-            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
-        }
-    }
+    // private static void conectarBancoDados() {
+    //     try {
+    //         connection = DriverManager.getConnection(URL, USER, PASSWORD);
+    //         System.out.println("Conexão com o banco de dados estabelecida.");
+    //     } catch (SQLException e) {
+    //         System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+    //     }
+    // }
 
-    private static void desconectarBancoDados() {
-        if (connection != null) {
-            try {
-                connection.close();
-                System.out.println("Conexão com o banco de dados encerrada.");
-            } catch (SQLException e) {
-                System.out.println("Erro ao encerrar a conexão com o banco de dados: " + e.getMessage());
-            }
-        }
-    }
+    // private static void desconectarBancoDados() {
+    //     if (connection != null) {
+    //         try {
+    //             connection.close();
+    //             System.out.println("Conexão com o banco de dados encerrada.");
+    //         } catch (SQLException e) {
+    //             System.out.println("Erro ao encerrar a conexão com o banco de dados: " + e.getMessage());
+    //         }
+    //     }
+    // }
 
 }
