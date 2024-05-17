@@ -1,16 +1,15 @@
 package com.academia;
 
-import classes.Exercicios;
-import classes.Planos;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
+
+import classes.utilities.exerciciosUtils;
+import classes.utilities.planosUtils;
+
+//import classes.Exercicios;
+//import classes.Planos;
 
 public class Menu {
     // Variáveis para a conexão com o banco de dados
@@ -51,19 +50,19 @@ public class Menu {
                     break;
                 case 7:
                     // Ação: Cadastrar Plano
-                    cadastrarPlano();
+                    planosUtils.cadastrarPlano();
                     break;
                 case 8:
                     // Ação: Listar Planos
-                    listarPlanos();
+                    planosUtils.listarPlanos();
                     break;
                 case 9:
                     // Ação: Cadastrar Exercício
-                    cadastrarExercicio();
+                    exerciciosUtils.cadastrarExercicio();
                     break;
                 case 10:
                     // Ação: Listar Exercícios
-                    listarExercicios();
+                    exerciciosUtils.listarExercicios();
                     break;
                 case 11:
                     // Ação: Cadastrar Treino
@@ -113,7 +112,7 @@ public class Menu {
         System.out.println("4. Listar Alunos");
         System.out.println("5. Buscar Aluno por CPF");
         System.out.println("6. Buscar Aluno por Nome");
-        System.out.println("7. Cadastrar Plano");
+        System.out.println("7. Criar Plano");
         System.out.println("8. Listar Planos");
         System.out.println("9. Cadastrar Exercício");
         System.out.println("10. Listar Exercícios");
@@ -147,53 +146,4 @@ public class Menu {
         }
     }
 
-    private static void listarPlanos() {
-        List<Planos> listaPlanos = new ArrayList<>();
-        // Obter os planos do banco de dados
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT codigo, nome, mensalidade FROM planos")) {
-            while (resultSet.next()) {
-                int codigo = resultSet.getInt("codigo");
-                String nome = resultSet.getString("nome");
-                float mensalidade = resultSet.getFloat("mensalidade");
-                Planos plano = new Planos(codigo, nome, mensalidade);
-                listaPlanos.add(plano);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao obter os planos do banco de dados: " + e.getMessage());
-        }
-        // Exibir os planos
-        Planos.exibirPlanos(listaPlanos);
-    }
-
-    private static void listarExercicios() {
-        List<Exercicios> listaExercicios = new ArrayList<>();
-        // Obter os exercícios do banco de dados
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT numero, nome, musculosativos FROM exercicios")) {
-            while (resultSet.next()) {
-                int numero = resultSet.getInt("numero");
-                String nome = resultSet.getString("nome");
-                String musculosAtivos = resultSet.getString("musculosativos");
-                Exercicios exercicio = new Exercicios(numero, nome, musculosAtivos);
-                listaExercicios.add(exercicio);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao obter os exercícios do banco de dados: " + e.getMessage());
-        }
-        // Exibir os exercícios
-        Exercicios.exibirExercicios(listaExercicios);
-    }
-
-    private static void cadastrarPlano(){
-        Planos plano = Planos.criarPlano();
-        Planos.adicionarPlano(plano);
-    }
-
-    private static void cadastrarExercicio(){
-        Exercicios exercicio = Exercicios.criarExercicio();
-        Exercicios.adicionarExercicio(exercicio);
-    }
 }

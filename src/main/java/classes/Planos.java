@@ -1,7 +1,6 @@
 //classe planos
 package classes;
 
-import com.academia.Menu;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,10 +51,10 @@ public class Planos{
 
             int linhasInseridas = statement.executeUpdate();
             if (linhasInseridas > 0) {
-                System.out.println("Exercício inserido com sucesso!");
+                System.out.println("Plano inserido com sucesso!");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir exercício: " + e.getMessage());
+            System.out.println("Erro ao inserir plano: " + e.getMessage());
         }
     }
 
