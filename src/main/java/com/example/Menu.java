@@ -10,16 +10,15 @@ import com.example.dto.*;
 import com.example.tabelas.*;
 import com.example.util.Util;
 
-
 //import classes.Exercicios;
 //import classes.Planos;
 
 public class Menu {
     // Variáveis para a conexão com o banco de dados
-    private static final String URL = "jdbc:postgresql://localhost:5432/sistemaAcademia";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "lucas";
-    private static Connection connection;
+    // private static final String URL = "jdbc:postgresql://localhost:5432/sistemaAcademia";
+    // private static final String USER = "postgres";
+    // private static final String PASSWORD = "lucas";
+    // private static Connection connection;
 
     public static void main(String[] args) {
 
@@ -28,15 +27,15 @@ public class Menu {
 
         while (!sair) {
             exibirMenu();
-            int opcao = Util.solicitarAlternativas(1,17, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
+            int opcao = Util.solicitarAlternativas(1, 17, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
 
             switch (opcao) {
                 case 1:
-                    Alunos funcoes_alunos = new Alunos();
-                // Ação: Cadastrar Aluno
+                    new AlunoDados();
+                    // Ação: Cadastrar Aluno
                     break;
                 case 2:
-                    // Ação: Alterar Aluno
+                    new AlunoPlano();
                     break;
                 case 3:
                     // Ação: Excluir Aluno
@@ -50,22 +49,22 @@ public class Menu {
                 case 6:
                     // Ação: Buscar Aluno por Nome
                     break;
-                    // 
+                //
                 case 7:
                     // Ação: Cadastrar Plano
-                    planosUtils.cadastrarPlano();
+                    PlanosUtils.cadastrarPlano();
                     break;
                 case 8:
                     // Ação: Listar Planos
-                    planosUtils.listarPlanos();
+                    PlanosUtils.listarPlanos();
                     break;
                 case 9:
                     // Ação: Cadastrar Exercício
-                    exerciciosUtils.cadastrarExercicio();
+                    ExerciciosUtils.cadastrarExercicio();
                     break;
                 case 10:
                     // Ação: Listar Exercícios
-                    exerciciosUtils.listarExercicios();
+                    ExerciciosUtils.listarExercicios();
                     break;
                 case 11:
                     // Ação: Cadastrar Treino
@@ -91,13 +90,13 @@ public class Menu {
                 default:
             }
 
-            if (!sair) {
-                System.out.println("\nDeseja voltar para o menu? (S/N)");
-                String resposta = scanner.nextLine();
-                if (!resposta.equalsIgnoreCase("S")) {
-                    sair = true;
-                }
-            }
+            // if (!sair) {
+            //     System.out.println("\nDeseja voltar para o menu? (S/N)");
+            //     String resposta = scanner.nextLine();
+            //     if (!resposta.equalsIgnoreCase("S")) {
+            //         sair = true;
+            //     }
+            // }
         }
 
         System.out.println("Programa encerrado.");
@@ -106,12 +105,11 @@ public class Menu {
     private static void exibirMenu() {
         // Implementação do método exibirMenu()
         System.out.println("------ Menu ------");
-        System.out.println("1. Cadastrar Aluno");
-        System.out.println("2. Alterar Aluno");
-        System.out.println("3. Excluir Aluno");
-        System.out.println("4. Listar Alunos");
-        System.out.println("5. Buscar Aluno por CPF");
-        System.out.println("6. Buscar Aluno por Nome");
+        System.out.println("1. Cadastro, Manipulacoes e Busca -> Alunos!!");
+        System.out.println("2. Instrutor ->  [Alunos-> plano, Alunos-> exercicios]!!");
+
+
+
         System.out.println("7. Criar Plano");
         System.out.println("8. Listar Planos");
         System.out.println("9. Cadastrar Exercício");
@@ -127,23 +125,24 @@ public class Menu {
     }
 
     // private static void conectarBancoDados() {
-    //     try {
-    //         connection = DriverManager.getConnection(URL, USER, PASSWORD);
-    //         System.out.println("Conexão com o banco de dados estabelecida.");
-    //     } catch (SQLException e) {
-    //         System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
-    //     }
+    // try {
+    // connection = DriverManager.getConnection(URL, USER, PASSWORD);
+    // System.out.println("Conexão com o banco de dados estabelecida.");
+    // } catch (SQLException e) {
+    // System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+    // }
     // }
 
     // private static void desconectarBancoDados() {
-    //     if (connection != null) {
-    //         try {
-    //             connection.close();
-    //             System.out.println("Conexão com o banco de dados encerrada.");
-    //         } catch (SQLException e) {
-    //             System.out.println("Erro ao encerrar a conexão com o banco de dados: " + e.getMessage());
-    //         }
-    //     }
+    // if (connection != null) {
+    // try {
+    // connection.close();
+    // System.out.println("Conexão com o banco de dados encerrada.");
+    // } catch (SQLException e) {
+    // System.out.println("Erro ao encerrar a conexão com o banco de dados: " +
+    // e.getMessage());
+    // }
+    // }
     // }
 
 }

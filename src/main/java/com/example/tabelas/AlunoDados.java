@@ -4,13 +4,13 @@ import java.util.List;
 
 
 import com.example.util.Util;
-import com.example.dao.AlunosDao;
-import com.example.dto.AlunosDto;
+import com.example.dao.AlunoDadosDao;
+import com.example.dto.AlunoDadosDto;
 
-public class Alunos {
-    AlunosDao banco = new AlunosDao();
+public class AlunoDados {
+    AlunoDadosDao banco = new AlunoDadosDao();
 
-    public Alunos() {
+    public AlunoDados() {
         menu();
         opcoesAluno(Util.solicitarAlternativas(1, 6, "Número da operação:"));
     }
@@ -49,7 +49,7 @@ public class Alunos {
     }
 
     private void incluirAluno() {
-        AlunosDto aluno = new AlunosDto();
+        AlunoDadosDto aluno = new AlunoDadosDto();
         boolean bool;
 
         aluno.setNome(Util.solicitarNome(" do aluno"));
@@ -68,7 +68,7 @@ public class Alunos {
         String cpf = Util.solicitarCpf(" do aluno a ser removido");
 
         if (banco.buscarCpf(cpf) != null) {
-            if (Util.solicitarSimNao("Deseja realmente remover o aluno:") == 1) {
+            if (Util.solicitarSimNao("Deseja realmente remover o aluno:")) {
                 boolean bool = banco.remover(cpf);
                 if (bool) {
                     System.out.println("Remoção realizada com sucesso!");
@@ -84,10 +84,10 @@ public class Alunos {
     }
 
     private void listarAlunos() {
-        List<AlunosDto> lista_alunos = banco.listarAlunos();
+        List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             System.out.println("Alunos");
-            for (AlunosDto aluno : lista_alunos) {
+            for (AlunoDadosDto aluno : lista_alunos) {
                 System.out.printf("Nome:%s |", aluno.getNome());
                 System.out.printf("%s |", aluno.getCpf());
                 System.out.printf("%s\n", aluno.getDataNascimento());
@@ -99,14 +99,14 @@ public class Alunos {
     }
 
     private void buscarAlunoNome() {
-        List<AlunosDto> lista_alunos = banco.listarAlunos();
+        List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             String nome = Util.solicitarNome(" do aluno");
             
             lista_alunos = banco.buscarNome(nome);
             if (lista_alunos.size() > 0) {
                 System.out.println("Alunos");
-                for (AlunosDto aluno : lista_alunos) {
+                for (AlunoDadosDto aluno : lista_alunos) {
                     System.out.printf("Nome:%s |", aluno.getNome());
                     System.out.printf("%s |", aluno.getCpf());
                     System.out.printf("%s\n", aluno.getDataNascimento());
@@ -120,11 +120,11 @@ public class Alunos {
     }
 
     private void buscarAlunoCpf() {
-        List<AlunosDto> lista_alunos = banco.listarAlunos();
+        List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             String cpf = Util.solicitarCpf(" do aluno");
 
-            AlunosDto aluno = banco.buscarCpf(cpf);
+            AlunoDadosDto aluno = banco.buscarCpf(cpf);
             if (aluno != null) {
                 System.out.printf("Nome:%s |", aluno.getNome());
                 System.out.printf("%s |", aluno.getCpf());

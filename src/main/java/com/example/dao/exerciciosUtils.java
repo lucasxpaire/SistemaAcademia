@@ -9,10 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.dto.AlunoDadosDto;
 import com.example.tabelas.Exercicios;
 import com.example.util.Conexao;
 
-public class exerciciosUtils {
+public class ExerciciosUtils {
 
     // private static Connection connection;
     public static void listarExercicios() {
@@ -68,6 +69,38 @@ public class exerciciosUtils {
             Conexao.desconectarBancoDados(conexao);
         }
     }
+
+    public Exercicios procurarExercicio(int numero) {
+        String sql = "SELECT * FROM EXERCICIOS WHERE NUMERO = ?";
+        Exercicios exercicio = null;
+
+        try (Connection conexao = Conexao.getInstance().getConnection();
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setInt(1, numero);
+
+            try (ResultSet resultset = statement.executeQuery()) {
+                // Processar o resultado da consulta
+                if (resultset.next()) {
+                    int num = resultset.getInt("NUMERO");
+                    String nome = resultset.getString("NOME");
+                    String musculos_ativos = resultset.getString("MUSCULOSATIVOS");
+
+                    exercicio = new Exercicios(num, nome, musculos_ativos);
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println("Erro ao inserir exercicio: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erro ao inserir exercicio: " + e.getMessage());
+        }
+        return exercicio;
+    }
+
+    // public AlunoDadosDto buscarCpf(String cpf){
+    // AlunoDadosDto aluno = null;
+
+    // return aluno;
+    // }
 
     public static void cadastrarExercicio() {
         Exercicios exercicio = Exercicios.criarExercicio();

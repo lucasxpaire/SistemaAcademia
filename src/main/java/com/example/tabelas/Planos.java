@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.example.util.Util;
+import com.example.dao.PlanosUtils;
+
 public class Planos {
     private int codigo;
     private String nome;
@@ -53,6 +56,19 @@ public class Planos {
         for (Planos plano : listaPlanos) {
             System.out.println(plano.toString());
         }
+    }
+
+    public static Planos solicitarPlano() {
+        int codigo;
+        Planos plano = null;
+        do {
+            codigo = Util.solicitarNum("Digite o codigo do plano:");
+            plano = PlanosUtils.plano(codigo);
+            if (plano == null) {
+                System.out.printf("Nao existem plano com codigo %d, por favor forneça um válido!!\n", codigo);
+            }
+        } while (plano == null);
+        return plano;
     }
 
     @Override

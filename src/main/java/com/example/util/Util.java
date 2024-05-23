@@ -20,7 +20,7 @@ public class Util {
         return num;
     }
 
-    public static int solicitarSimNao(String str) {
+    public static boolean solicitarSimNao(String str) {
         int num;
         do {
             System.out.println("1 - Sim");
@@ -31,7 +31,7 @@ public class Util {
             if (num < 0 || num > 1)
                 System.out.println("Digite um número válido!");
         } while (num < 0 || num > 1);
-        return num;
+        return num == 1 ? true : false;
     }
 
     public static int solicitarNum(String str) {
@@ -119,7 +119,7 @@ public class Util {
 
     public static String solicitarData2(String str) {
         String data = solicitarString(str + " no formato MM/AAAA:");
-        while (!validarData(data)) {
+        while (!validarData2(data)) {
             System.out.println(
                     "Você digitou a data no formato errado. Lembre-se de usar o formato MM/AAAA.");
             data = solicitarString("Por favor, tente novamente:");

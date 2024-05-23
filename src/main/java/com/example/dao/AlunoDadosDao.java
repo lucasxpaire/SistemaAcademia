@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.util.Conexao;
-import com.example.dto.AlunosDto;
+import com.example.dto.AlunoDadosDto;
 
-public class AlunosDao {
-    public boolean incluir(AlunosDto alunoDto) {
+public class AlunoDadosDao {
+    public boolean incluir(AlunoDadosDto alunoDto) {
         Connection conexao = null;
-        AlunosDto aluno = null;
+        AlunoDadosDto aluno = null;
         aluno = buscarCpf(alunoDto.getCpf());
         if (aluno == null) {
             try {
                 conexao = Conexao.getInstance().getConnection();
-                String sql = "INSERT INTO ALUNOS(CPF, NOME, DATA_NASCIMENTO) VALUES(?, ?, ?)";
+                String sql = "INSERT INTO ALUNOS_DADOS(CPF, NOME, DATA_NASCIMENTO) VALUES(?, ?, ?)";
                 PreparedStatement statement = conexao.prepareStatement(sql);
                 statement.setString(1, alunoDto.getCpf());
                 statement.setString(2, alunoDto.getNome().toUpperCase(Locale.ENGLISH));
@@ -48,7 +48,7 @@ public class AlunosDao {
         Connection conexao = null;
         try {
             conexao = Conexao.getInstance().getConnection();
-            String sql = "DELETE FROM ALUNOS WHERE CPF = ?";
+            String sql = "DELETE FROM ALUNOS_DADOS WHERE CPF = ?";
             PreparedStatement statement = conexao.prepareStatement(sql);
             statement.setString(1, cpf);
             statement.execute();
@@ -68,18 +68,18 @@ public class AlunosDao {
         }
     }
 
-    public List<AlunosDto> listarAlunos() {
-        List<AlunosDto> lista_alunos = new ArrayList<AlunosDto>();
+    public List<AlunoDadosDto> listarAlunos() {
+        List<AlunoDadosDto> lista_alunos = new ArrayList<AlunoDadosDto>();
         Connection conexao = null;
         try {
             conexao = Conexao.getInstance().getConnection();
-            String sql = "SELECT * FROM ALUNOS";
+            String sql = "SELECT * FROM ALUNOS_DADOS";
             PreparedStatement statement = conexao.prepareStatement(sql);
 
             ResultSet resultset = statement.executeQuery();
 
             while (resultset.next()) {
-                AlunosDto aluno = new AlunosDto();
+                AlunoDadosDto aluno = new AlunoDadosDto();
                 aluno.setCpf(resultset.getString("CPF"));
                 aluno.setNome(resultset.getString("NOME"));
                 //
@@ -102,18 +102,18 @@ public class AlunosDao {
         return lista_alunos;
     }
 
-    public List<AlunosDto> buscarNome(String nome) {
-        List<AlunosDto> lista_alunos = new ArrayList<AlunosDto>();
+    public List<AlunoDadosDto> buscarNome(String nome) {
+        List<AlunoDadosDto> lista_alunos = new ArrayList<AlunoDadosDto>();
         try {
             Connection conexao = Conexao.getInstance().getConnection();
-            String sql = "SELECT * FROM ALUNOS WHERE NOME = ?";
+            String sql = "SELECT * FROM ALUNOS_DADOS WHERE NOME = ?";
             PreparedStatement statement = conexao.prepareStatement(sql);
             statement.setString(1, nome.toUpperCase(Locale.ENGLISH));
 
             ResultSet resultset = statement.executeQuery();
 
             while (resultset.next()) {
-                AlunosDto aluno = new AlunosDto();
+                AlunoDadosDto aluno = new AlunoDadosDto();
                 aluno.setCpf(resultset.getString("CPF"));
                 aluno.setNome(resultset.getString("NOME"));
                 aluno.setDataNascimento(resultset.getString("DATA_NASCIMENTO"));
@@ -127,18 +127,18 @@ public class AlunosDao {
         return lista_alunos;
     }
 
-    public AlunosDto buscarCpf(String cpf) {
-        AlunosDto aluno = null;
+    public AlunoDadosDto buscarCpf(String cpf) {
+        AlunoDadosDto aluno = null;
         Connection conexao = null;
         try {
             conexao = Conexao.getInstance().getConnection();
             if (conexao != null) {
-                String sql = "SELECT * FROM ALUNOS WHERE CPF = ?";
+                String sql = "SELECT * FROM ALUNOS_DADOS WHERE CPF = ?";
                 PreparedStatement statement = conexao.prepareStatement(sql);
                 statement.setString(1, cpf);
                 ResultSet resultset = statement.executeQuery();
                 if (resultset.next()) {
-                    aluno = new AlunosDto();
+                    aluno = new AlunoDadosDto();
                     aluno.setCpf(resultset.getString("CPF"));
                     aluno.setNome(resultset.getString("NOME"));
                     aluno.setDataNascimento(resultset.getString("DATA_NASCIMENTO"));

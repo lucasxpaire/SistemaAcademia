@@ -1,6 +1,6 @@
 package com.example.dto;
 
-public class AlunosDto {
+public class AlunoDadosDto {
     private String cpf;
     private String nome;
     private String data_nascimento;

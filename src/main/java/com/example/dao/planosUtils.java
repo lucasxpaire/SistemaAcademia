@@ -14,7 +14,7 @@ import com.example.dto.CartaoDto;
 import com.example.tabelas.Planos;
 import com.example.util.Conexao;
 
-public class planosUtils {
+public class PlanosUtils {
 
     Conexao connection;
 
@@ -52,6 +52,43 @@ public class planosUtils {
             }
         }
         return id_cartao;
+    }
+
+    public static Planos plano(int codigo) {
+
+        Connection conexao = null;
+        Planos plano = null;
+        try {
+            conexao = Conexao.getInstance().getConnection();
+            if (conexao != null) {
+
+                String sql = "SELECT * FROM PLANOS WHERE codigo = ?";
+                PreparedStatement statement = conexao.prepareStatement(sql);
+                statement.setInt(1, codigo);
+                statement.executeQuery();
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    int code = resultSet.getInt("codigo");
+                    String nome = resultSet.getString("nome");
+                    float mensalidade = resultSet.getFloat("mensalidade");
+                    plano = new Planos(code, nome, mensalidade);
+                }
+                conexao.close();
+                return plano;
+            }
+        } catch (Exception e) {
+            System.out.println("ERRO?");
+            return plano;
+        } finally {
+            if (conexao != null) {
+                try {
+                    conexao.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return plano;
     }
 
     public static void listarPlanos() {
