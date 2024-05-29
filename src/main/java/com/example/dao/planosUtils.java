@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +10,10 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.dto.CartaoDto;
-import com.example.tabelas.Planos;
+import com.example.dto.PlanoDto;
 import com.example.util.Conexao;
 
 public class PlanosUtils {
-
-    Conexao connection;
 
     public int incluir(CartaoDto cartao) {
         Connection conexao = null;
@@ -54,58 +51,46 @@ public class PlanosUtils {
         return id_cartao;
     }
 
-    public static Planos plano(int codigo) {
+    public PlanoDto buscarPlano(int codigo) {
+        String sql = "SELECT * FROM PLANOS WHERE codigo = ?";
+        PlanoDto plano = null;
 
-        Connection conexao = null;
-        Planos plano = null;
-        try {
-            conexao = Conexao.getInstance().getConnection();
-            if (conexao != null) {
+        try (Connection conexao = Conexao.getInstance().getConnection();
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
 
-                String sql = "SELECT * FROM PLANOS WHERE codigo = ?";
-                PreparedStatement statement = conexao.prepareStatement(sql);
-                statement.setInt(1, codigo);
-                statement.executeQuery();
-                ResultSet resultSet = statement.executeQuery();
+            statement.setInt(1, codigo);
+            // Executa a consulta e obtém o ResultSet
+            try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int code = resultSet.getInt("codigo");
-                    String nome = resultSet.getString("nome");
-                    float mensalidade = resultSet.getFloat("mensalidade");
-                    plano = new Planos(code, nome, mensalidade);
-                }
-                conexao.close();
-                return plano;
-            }
-        } catch (Exception e) {
-            System.out.println("ERRO?");
-            return plano;
-        } finally {
-            if (conexao != null) {
-                try {
-                    conexao.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    plano = new PlanoDto();
+                    plano.setNome(resultSet.getString("nome"));
+                    plano.setCodigo(resultSet.getInt("codigo"));
+                    plano.setMensalidade(resultSet.getFloat("mensalidade"));
                 }
             }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return plano;
     }
 
-    public static void listarPlanos() {
-        List<Planos> listaPlanos = new ArrayList<>();
+    public List<PlanoDto> listaPlanos() {
+        List<PlanoDto> listaPlanos = new ArrayList<>();
         // Obter os planos do banco de dados
-        Connection conexao = null;
-        try {
-            conexao = Conexao.getInstance().getConnection();
-            if (conexao != null) {
+        String sql = "SELECT codigo, nome, mensalidade FROM planos";
 
-                Statement statement = conexao.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT codigo, nome, mensalidade FROM planos");
+        try (Connection conexao = Conexao.getInstance().getConnection();
+                Statement statement = conexao.createStatement();) {
+
+            try (ResultSet resultSet = statement.executeQuery(sql);) {
                 while (resultSet.next()) {
-                    int codigo = resultSet.getInt("codigo");
-                    String nome = resultSet.getString("nome");
-                    float mensalidade = resultSet.getFloat("mensalidade");
-                    Planos plano = new Planos(codigo, nome, mensalidade);
+
+                    PlanoDto plano = new PlanoDto();
+                    plano.setNome(resultSet.getString("nome"));
+                    plano.setCodigo(resultSet.getInt("codigo"));
+                    plano.setMensalidade(resultSet.getFloat("mensalidade"));
                     listaPlanos.add(plano);
                 }
             }
@@ -113,43 +98,28 @@ public class PlanosUtils {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            Conexao.desconectarBancoDados(conexao);
         }
-        Planos.exibirPlanos(listaPlanos);
-        // Exibir os planos
+        return listaPlanos;
     }
 
-    public static void adicionarPlano(Planos plano) {
+    public boolean adicionarPlano(PlanoDto plano) {
 
-        String sql = "INSERT INTO planos (codigo, nome, mensalidade) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO planos (nome, mensalidade) VALUES (?, ?)";
 
-        Connection connection = null;
-        try {
-            connection = Conexao.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            statement.setInt(1, plano.getCodigo());
-            statement.setString(2, plano.getNome());
-            statement.setFloat(3, plano.getMensalidade());
-
+        try (Connection conexao = Conexao.getInstance().getConnection();
+                PreparedStatement statement = conexao.prepareStatement(sql);) {
+            statement.setString(1, plano.getNome());
+            statement.setDouble(2, plano.getMensalidade());
             int linhasInseridas = statement.executeUpdate();
-            if (linhasInseridas > 0) {
-                System.out.println("Plano inserido com sucesso!");
-            }
+            return linhasInseridas > 0;
+
         } catch (ClassNotFoundException e) {
             System.out.println("Erro ao inserir plano: " + e.getMessage());
             e.printStackTrace();
         } catch (SQLException e) {
             System.out.println("Erro ao inserir plano: " + e.getMessage());
-        } finally {
-            Conexao.desconectarBancoDados(connection);
-        }
-
+        } 
+        return false;
     }
 
-    public static void cadastrarPlano() {
-        Planos plano = Planos.criarPlano();
-        adicionarPlano(plano);
-    }
 }

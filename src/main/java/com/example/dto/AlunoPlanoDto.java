@@ -1,8 +1,10 @@
 package com.example.dto;
 
+import java.time.LocalDate;
+
 public class AlunoPlanoDto {
     private Integer id_cartao;
-    private String data_inicio;
+    private LocalDate data_inicio;
     private Integer id_plano;
     private String aluno_cpf;
 
@@ -14,11 +16,11 @@ public class AlunoPlanoDto {
         return aluno_cpf;
     }
     
-    public void setData_inicio(String data_inicio) {
+    public void setData_inicio(LocalDate data_inicio) {
         this.data_inicio = data_inicio;
     }
 
-    public String getData_inicio() {
+    public LocalDate getData_inicio() {
         return data_inicio;
     }
 

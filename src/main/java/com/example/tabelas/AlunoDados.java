@@ -90,7 +90,7 @@ public class AlunoDados {
             for (AlunoDadosDto aluno : lista_alunos) {
                 System.out.printf("Nome:%s |", aluno.getNome());
                 System.out.printf("%s |", aluno.getCpf());
-                System.out.printf("%s\n", aluno.getDataNascimento());
+                System.out.printf("%s\n", Util.formatarDataEmPortugues(aluno.getDataNascimento()));
             }
         } else {
             System.out.println("Não existe nenhum aluno cadastrado!");
@@ -109,7 +109,7 @@ public class AlunoDados {
                 for (AlunoDadosDto aluno : lista_alunos) {
                     System.out.printf("Nome:%s |", aluno.getNome());
                     System.out.printf("%s |", aluno.getCpf());
-                    System.out.printf("%s\n", aluno.getDataNascimento());
+                    System.out.printf("%s\n", Util.formatarDataEmPortugues(aluno.getDataNascimento()));
                 }
             } else {
                 System.out.printf("Não foi encontrado nenhum aluno com nome: %s!\n", nome);
@@ -128,7 +128,7 @@ public class AlunoDados {
             if (aluno != null) {
                 System.out.printf("Nome:%s |", aluno.getNome());
                 System.out.printf("%s |", aluno.getCpf());
-                System.out.printf("%s\n", aluno.getDataNascimento());
+                System.out.printf("%s\n", Util.formatarDataEmPortugues(aluno.getDataNascimento()));
             } else {
                 System.out.printf("Não foi encontrado nenhum aluno com cpf: %s!\n", cpf);
             }

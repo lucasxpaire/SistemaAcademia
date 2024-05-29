@@ -1,9 +1,11 @@
 package com.example.dto;
 
+import java.time.LocalDate;
+
 public class AlunoDadosDto {
     private String cpf;
     private String nome;
-    private String data_nascimento;
+    private LocalDate data_nascimento;
 
     public String getCpf() {
         return cpf;
@@ -21,11 +23,11 @@ public class AlunoDadosDto {
         this.nome = nome;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return data_nascimento;
     }
 
-    public void setDataNascimento(String data_nascimento) {
+    public void setDataNascimento(LocalDate data_nascimento) {
         this.data_nascimento = data_nascimento;
     }
 }

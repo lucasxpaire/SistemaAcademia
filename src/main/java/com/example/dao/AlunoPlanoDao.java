@@ -1,12 +1,14 @@
 package com.example.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+// import com.example.dto.AlunoDadosDto;
 import com.example.dto.AlunoPlanoDto;
-import com.example.dto.AlunoDadosDto;
 import com.example.util.Conexao;
 
 public class AlunoPlanoDao {
@@ -20,7 +22,9 @@ public class AlunoPlanoDao {
             PreparedStatement statement = conexao.prepareStatement(sql);
             statement.setString(1, aluno_planoDto.getAluno_cpf());
             statement.setInt(2, aluno_planoDto.getId_plano());
-            statement.setString(3, aluno_planoDto.getData_inicio());
+
+            
+            statement.setDate(3, Date.valueOf(aluno_planoDto.getData_inicio()));
             statement.setInt(4, aluno_planoDto.getId_cartao());
             statement.execute();
             conexao.close();
@@ -63,30 +67,6 @@ public class AlunoPlanoDao {
         }
     }
 
-    // public boolean renovar(AlunoPlanoDto aluno_planoDto) {
-    //     Connection conexao = null;
-    //     try {
-    //         conexao = Conexao.getInstance().getConnection();
-    //         String sql = "UPDATE ALUNO_PLANO SET DATA_INICIO = ? WHERE ALUNO_CPF = ?";
-    //         PreparedStatement statement = conexao.prepareStatement(sql);
-    //         statement.setString(1, aluno_planoDto.getData_inicio());
-    //         statement.setString(2, aluno_planoDto.getAluno_cpf());
-    //         statement.executeUpdate();
-    //         return true;
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return false;
-    //     } finally {
-    //         if (conexao != null) {
-    //             try {
-    //                 conexao.close();
-    //             } catch (SQLException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
-    // }
-
     public AlunoPlanoDto buscarAlunoPlano(String cpf) {
         AlunoPlanoDto aluno = null;
         Connection conexao = null;
@@ -100,7 +80,11 @@ public class AlunoPlanoDao {
                 if (resultset.next()) {
                     aluno = new AlunoPlanoDto();
                     aluno.setAluno_cpf(resultset.getString("ALUNO_CPF"));
-                    aluno.setData_inicio(resultset.getString("DATA_INICIO"));
+                    Date sql_data = resultset.getDate("DATA_INICIO");
+                    if (sql_data != null) {
+                        LocalDate data = sql_data.toLocalDate();
+                        aluno.setData_inicio(data);
+                    }
                     aluno.setId_cartao(resultset.getInt("ID_CARTAO"));
                     aluno.setId_plano(resultset.getInt("ID_PLANO"));
                 }
@@ -119,7 +103,7 @@ public class AlunoPlanoDao {
             }
         }
         return aluno;
-    
+
     }
 
 }

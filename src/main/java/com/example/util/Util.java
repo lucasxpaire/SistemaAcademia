@@ -3,6 +3,7 @@ package com.example.util;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Util {
@@ -38,6 +39,15 @@ public class Util {
         int num;
         System.out.print(str);
         num = input.nextInt();
+        input.nextLine();
+
+        return num;
+    }
+
+    public static double solicitarNumDouble(String str) {
+        double num;
+        System.out.print(str);
+        num = input.nextDouble();
         input.nextLine();
 
         return num;
@@ -93,18 +103,6 @@ public class Util {
         return numero;
     }
 
-    public static boolean validarData(String data) {
-        try {
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data_analisada = LocalDate.parse(data, formato);
-            LocalDate min_data = LocalDate.of(1900, 1, 1);
-            LocalDate max_data = LocalDate.of(2100, 12, 31);
-            return !data_analisada.isBefore(min_data) && !data_analisada.isAfter(max_data);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public static boolean validarData2(String data) {
         try {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("MM/yyyy");
@@ -127,13 +125,21 @@ public class Util {
         return data;
     }
 
-    public static String solicitarData(String str) {
+    public static LocalDate solicitarData(String str) {
         String data = solicitarString(str + " no formato DD/MM/AAAA:");
-        while (!validarData(data)) {
-            System.out.println(
-                    "Você digitou a data no formato errado. Lembre-se de usar o formato DD/MM/AAAA.");
-            data = solicitarString("Por favor, tente novamente:");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            return LocalDate.parse(data, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Formato de data inválido. Por favor, use o formato DD/MM/AAAA.");
+            return solicitarData(str);
         }
-        return data;
     }
+
+    public static String formatarDataEmPortugues(LocalDate data) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return data.format(formatter);
+    }
+
 }

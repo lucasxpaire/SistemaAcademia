@@ -1,86 +1,55 @@
-//classe exercicios
 package com.example.tabelas;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
+import com.example.dao.ExerciciosUtils;
+import com.example.dto.ExerciciosDto;
+import com.example.util.Util;
 
 public class Exercicios {
-    private int numero;
-    private String nome, musculosAtivos;
 
-    public String getMusculosAtivos() {
-        return musculosAtivos;
-    }
+    public static void cadastrarExercicio() {
+        ExerciciosUtils banco_exercicio = new ExerciciosUtils();
 
-    public String getNome() {
-        return nome;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public Exercicios(int numero, String nome, String musculosAtivos){
-        this.numero = numero;
-        this.nome = nome;
-        this.musculosAtivos = musculosAtivos;
-    }
-
-    public static Exercicios criarExercicio(){
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Número: ");
-        int numero = sc.nextInt();
-        sc.nextLine();
-
-        System.out.println("Nome: ");
-        String nome = sc.nextLine();
-
-        System.out.println("Musculos Ativos: ");
-        String musculosAtivos = sc.nextLine();
-        
-
-        return new Exercicios(numero, nome, musculosAtivos);
-    }
-
-    public static void adicionarExercicio(Exercicios exercicio){
-        String url = "jdbc:postgresql://localhost:5432/sistemaAcademia";
-        String user = "postgres";
-        String password = "lucas";
-
-        String sql = "INSERT INTO exercicios (numero, nome, musculosativos) VALUES (?, ?, ?)";
-
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, exercicio.numero);
-            statement.setString(2, exercicio.nome);
-            statement.setString(3, exercicio.musculosAtivos);
-
-            int linhasInseridas = statement.executeUpdate();
-            if (linhasInseridas > 0) {
+        ExerciciosDto exercicio = new ExerciciosDto();
+        exercicio.setNome(Util.solicitarNome(" do exercicio"));
+        exercicio.setMusculosAtivos(Util.solicitarString("Musculos Ativos:"));
+        if (banco_exercicio.procurarNomeExercicio(exercicio.getNome()) == null) {
+            if (banco_exercicio.adicionarExercicio(exercicio)) {
                 System.out.println("Exercício inserido com sucesso!");
+            } else {
+                System.out.println("Erro ao criar exercicio!");
             }
-        } catch (SQLException e) {
-            System.out.println("Erro ao inserir exercício: " + e.getMessage());
+        } else {
+            System.out.println("Exercicio ja cadastrado!");
         }
     }
 
-    public static void exibirExercicios(List<Exercicios> listaExercicios){
-        System.out.println("Exercícios:");
-        for(Exercicios exercicios : listaExercicios){
-            System.out.println(exercicios.toString());
+    public static void removerExercicio() {
+        ExerciciosUtils banco_exercicio = new ExerciciosUtils();
+        int num = Util.solicitarNum("Digite o numero do exercicio que deseja remover!\n");
+        if (banco_exercicio.procurarExercicio(num) != null) {
+            if (banco_exercicio.remover(num)) {
+                System.out.println("Exercicio removido com sucesso!");
+            } else {
+                System.out.println("Erro ao remover exercicio!");
+            }
+        } else {
+            System.out.println("Esse exercicio nao esta cadastrado!");
         }
     }
 
-    @Override
-    public String toString() {
-        return  " " + numero +
-                " - " + nome +
-                " - " + musculosAtivos;
+    public static void exibirExercicios() {
+        ExerciciosUtils banco_exercicio = new ExerciciosUtils();
+
+        List<ExerciciosDto> lista_exercicios = banco_exercicio.listaExercicios();
+        if (lista_exercicios.size() > 0) {
+            System.out.println("Exercícios:");
+            for (ExerciciosDto exercicios : lista_exercicios) {
+                System.out.println(exercicios.toString());
+            }
+        } else {
+            System.out.println("Nao existem exercicios");
+        }
     }
+
 }

@@ -1,12 +1,5 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Scanner;
-
-import com.example.dao.*;
-import com.example.dto.*;
 import com.example.tabelas.*;
 import com.example.util.Util;
 
@@ -15,14 +8,14 @@ import com.example.util.Util;
 
 public class Menu {
     // Variáveis para a conexão com o banco de dados
-    // private static final String URL = "jdbc:postgresql://localhost:5432/sistemaAcademia";
+    // private static final String URL =
+    // "jdbc:postgresql://localhost:5432/sistemaAcademia";
     // private static final String USER = "postgres";
     // private static final String PASSWORD = "lucas";
     // private static Connection connection;
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
         boolean sair = false;
 
         while (!sair) {
@@ -38,7 +31,7 @@ public class Menu {
                     new AlunoPlano();
                     break;
                 case 3:
-                    // Ação: Excluir Aluno
+                    new AlunoTreino();
                     break;
                 case 4:
                     // Ação: Listar Alunos
@@ -52,23 +45,23 @@ public class Menu {
                 //
                 case 7:
                     // Ação: Cadastrar Plano
-                    PlanosUtils.cadastrarPlano();
+                    Planos.cadastrarPlano();
                     break;
                 case 8:
                     // Ação: Listar Planos
-                    PlanosUtils.listarPlanos();
+                    Planos.exibirPlanos();
                     break;
                 case 9:
                     // Ação: Cadastrar Exercício
-                    ExerciciosUtils.cadastrarExercicio();
+                    Exercicios.cadastrarExercicio();
                     break;
                 case 10:
                     // Ação: Listar Exercícios
-                    ExerciciosUtils.listarExercicios();
+                    Exercicios.exibirExercicios();
                     break;
                 case 11:
-                    // Ação: Cadastrar Treino
-                    break;
+                    Exercicios.removerExercicio();
+                break;
                 case 12:
                     // Ação: Alterar Treino
                     break;
@@ -91,11 +84,11 @@ public class Menu {
             }
 
             // if (!sair) {
-            //     System.out.println("\nDeseja voltar para o menu? (S/N)");
-            //     String resposta = scanner.nextLine();
-            //     if (!resposta.equalsIgnoreCase("S")) {
-            //         sair = true;
-            //     }
+            // System.out.println("\nDeseja voltar para o menu? (S/N)");
+            // String resposta = scanner.nextLine();
+            // if (!resposta.equalsIgnoreCase("S")) {
+            // sair = true;
+            // }
             // }
         }
 
@@ -107,20 +100,20 @@ public class Menu {
         System.out.println("------ Menu ------");
         System.out.println("1. Cadastro, Manipulacoes e Busca -> Alunos!!");
         System.out.println("2. Instrutor ->  [Alunos-> plano, Alunos-> exercicios]!!");
+        System.out
+                .println("3. Instrutor e Aluno->  [Alunos-> realizar Treino, Instrutor-> Criar e modificar treinos]!!");
 
-
-
-        System.out.println("7. Criar Plano");
-        System.out.println("8. Listar Planos");
-        System.out.println("9. Cadastrar Exercício");
-        System.out.println("10. Listar Exercícios");
-        System.out.println("11. Cadastrar Treino");
-        System.out.println("12. Alterar Treino");
-        System.out.println("13. Excluir Treino");
-        System.out.println("14. Iniciar Treino");
-        System.out.println("15. Encerrar Treino");
-        System.out.println("16. Relatórios");
-        System.out.println("17. Sair");
+        // System.out.println("7. Criar Plano");
+        // System.out.println("8. Listar Planos");
+        // System.out.println("9. Cadastrar Exercício");
+        // System.out.println("10. Listar Exercícios");
+        // System.out.println("11. Cadastrar Treino");
+        // System.out.println("12. Alterar Treino");
+        // System.out.println("13. Excluir Treino");
+        // System.out.println("14. Iniciar Treino");
+        // System.out.println("15. Encerrar Treino");
+        // System.out.println("16. Relatórios");
+        // System.out.println("17. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
