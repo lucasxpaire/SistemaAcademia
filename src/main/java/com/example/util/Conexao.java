@@ -7,13 +7,8 @@ public class Conexao {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/sistema_academia";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "lucas";
-
-    // private static Connection connection;
-
-    //private static final String URL = "jdbc:postgresql://localhost:5432/sistema_academia";
-    //private static final String USER = "postgres";
-    //private static final String PASSWORD = "kise";
+    //private static final String PASSWORD = "lucas";
+    private static final String PASSWORD = "kise";
     
     private static Conexao conexao;
 

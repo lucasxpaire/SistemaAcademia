@@ -11,13 +11,15 @@ public class Menu {
 
     public void exibirMenuPrincipal() {
         System.out.println("------ Menu Principal ------");
-        System.out.println("1. Alunos");
-        System.out.println("2. Planos");
-        System.out.println("3. Exercícios");
-        System.out.println("4. Instrutor -> Alunos Cadastrados");
-        System.out.println("5. Relatórios");
-        System.out.println("6. Sair");
-        System.out.print("Escolha um tópico: ");
+        System.out.println("1. Aluno Dados");
+        System.out.println("2. Aluno Plano");
+        System.out.println("3. Aluno Treino");
+        System.out.println("4. Instrutor Aluno Treino");
+        System.out.println("5. Exercicios");
+        System.out.println("6. Planos");
+        System.out.println("7. Relatórios");
+        System.out.println("8. Sair");
+        
     }
 
     public void menuAlunosDados() {
