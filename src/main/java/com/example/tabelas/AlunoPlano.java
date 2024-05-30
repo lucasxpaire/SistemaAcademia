@@ -20,37 +20,6 @@ public class AlunoPlano {
     AlunoPlanoDao banco = new AlunoPlanoDao();
     AlunoDadosDao bancoAluno = new AlunoDadosDao();
 
-    // Interface menu = new Interface();
-
-    public void plano() {
-        System.out.println("Qual operacao com instrutor deseja realizar:");
-        System.out.println("1 - Cadastrar plano!");
-        System.out.println("2 - Cancelar plano!");
-        System.out.println("3 - Voltar!");
-
-    }
-
-    public AlunoPlano() {
-        plano();
-        opcoesPlano(Util.solicitarAlternativas(1, 3, "Número da operação:"));
-    }
-
-    private void opcoesPlano(int opcao) {
-        switch (opcao) {
-            case 1:
-                cadastrarPlano();
-                break;
-            case 2:
-                cancelarPlano();
-                break;
-            case 3:
-                // mostrarAlunoPlanos();
-                break;
-            default:
-                break;
-        }
-    }
-
     private int cadastrarCartao() {
         System.out.println("-----DADOS DO CARTAO DE CREDITO -----");
         CartaoDto cartao = new CartaoDto();
@@ -61,11 +30,6 @@ public class AlunoPlano {
         int id = cartao_banco.incluir(cartao);
         return id;
     }
-
-    // // FALTA ESSA
-    // private void mostrarAlunoPlanos() {
-
-    // }
 
     public void cadastrarPlano() {
         String cpf = Util.solicitarCpf(" do aluno");
@@ -100,7 +64,7 @@ public class AlunoPlano {
         }
     }
 
-    private void cancelarPlano() {
+    public void cancelarPlano() {
         String cpf = Util.solicitarCpf(" do aluno");
         AlunoDadosDto aluno = bancoAluno.buscarCpf(cpf);
         AlunoPlanoDto aluno_plano = null;

@@ -24,55 +24,7 @@ public class AlunoTreino {
     AlunoTreinoDao banco_treino = new AlunoTreinoDao();
     AlunoPlanoDao banco_plano = new AlunoPlanoDao();
 
-    public void treino() {
-        System.out.println("Qual operacao com instrutor deseja realizar:");
-        System.out.println("---INSTRUTOR---");
-        System.out.println("1 - Cadastrar Treino!");
-        System.out.println("2 - alterar treino!");
-        System.out.println("3 - Excluir treino!");
-
-        System.out.println("---ALUNO E INSTRUTOR---");
-        System.out.println("4 - Mostrar lista de treino!");
-        System.out.println("5 - Mostrar treino!");
-        System.out.println("6 - Alterar carga de um exercicio!");
-        System.out.println("7 - Realizar treino!");
-        System.out.println("8 - Voltar!");
-    }
-
-    public AlunoTreino() {
-        treino();
-        opcoesTreino(Util.solicitarAlternativas(1, 8, "Número da operação:"));
-    }
-
-    private void opcoesTreino(int opcao) {
-        switch (opcao) {
-            // INSTRUTOR
-            case 1:
-                cadastrarTreino();
-                break;
-            case 2:
-                alterarTreino();
-                break;
-            case 3:
-                excluirTreino();
-                break;
-            // ALUNO
-            case 4:
-                mostrarListaTreinos();
-                break;
-            case 5:
-                mostrarTreino();
-                break;
-            case 6:
-                alterarCarga();
-                break;
-            case 7:
-                realizarTreino();
-            default:
-                break;
-        }
-    }
-
+    
     private boolean montar_treino(AlunoTreinoDto aluno_treino) {
         int num;
         Exercicios.exibirExercicios();

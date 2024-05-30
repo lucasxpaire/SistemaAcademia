@@ -11,7 +11,6 @@ import java.util.Locale;
 
 import com.example.dto.CartaoDto;
 import com.example.dto.PlanoDto;
-import com.example.tabelas.Planos;
 import com.example.util.Conexao;
 
 public class PlanosUtils {

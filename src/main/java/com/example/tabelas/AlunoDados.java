@@ -2,7 +2,6 @@ package com.example.tabelas;
 
 import java.util.List;
 
-
 import com.example.util.Util;
 import com.example.dao.AlunoDadosDao;
 import com.example.dto.AlunoDadosDto;
@@ -83,6 +82,20 @@ public class AlunoDados {
         }
     }
 
+    public void alterarDadosAluno() {
+        String cpf = Util.solicitarCpf(" do aluno a ser removido");
+        AlunoDadosDto aluno = banco.buscarCpf(cpf);
+        if (aluno != null) {
+            System.out.println("Deseja alterar o nome ou data_de_nascimento");
+            System.out.printf("Nome:%s |", aluno.getNome());
+            System.out.printf("%s |", aluno.getCpf());
+            System.out.printf("%s\n", Util.formatarDataEmPortugues(aluno.getDataNascimento()));
+        } else {
+            System.out.printf("Aluno nao cadastrado!\n");
+        }
+
+    }
+
     public void listarAlunos() {
         List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
@@ -102,7 +115,7 @@ public class AlunoDados {
         List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             String nome = Util.solicitarNome(" do aluno");
-            
+
             lista_alunos = banco.buscarNome(nome);
             if (lista_alunos.size() > 0) {
                 System.out.println("Alunos");

@@ -7,35 +7,42 @@ public class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
         boolean sair = false;
-        //Dependendo de como tu clonou o caminho pode ser assim: src/main/exercicios.csv
+        // Dependendo de como tu clonou o caminho pode ser assim:
+        // src/main/exercicios.csv
         String caminhoArquivo = "SistemaAcademia/src/main/exercicios.csv";
         ExerciciosUtils.inicializarExerciciosCSV(caminhoArquivo);
 
         while (!sair) {
             menu.exibirMenuPrincipal();
-            int opcao = Util.solicitarAlternativas(1, 7, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
+            int opcao = Util.solicitarAlternativas(1, 8, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
 
             switch (opcao) {
                 case 1:
-                    menu.menuAlunos();
+                    menu.menuAlunosDados();
                     break;
                 case 2:
-                    menu.menuPlanos();
+                    menu.menuAlunoPlano();
                     break;
                 case 3:
-                    menu.menuExercicios();
+                    menu.menuAlunoTreino();
                     break;
                 case 4:
-                    menu.menuInstrutorAlunosCadastrados();
+                    menu.menuInstrutorTreino();
                     break;
                 case 5:
-                    menu.menuRelatorios();
+                    menu.menuExercicios();
                     break;
                 case 6:
+                    menu.menuPlanos();
+                    break;
+                case 7:
+                    // menu relatorio
+                    break;
+                case 8:
                     sair = true;
                     break;
                 default:
-                    System.out.println("Opção inválida, tente novamente.");
+                    break;
             }
         }
 
