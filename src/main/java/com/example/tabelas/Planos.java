@@ -11,6 +11,7 @@ public class Planos {
     public static void cadastrarPlano() {
         PlanosUtils banco_plano = new PlanosUtils();
         PlanoDto plano = new PlanoDto();
+        plano.setCodigo(Util.solicitarNum("Código do plano:"));
         plano.setNome(Util.solicitarNome(" do plano"));
         plano.setMensalidade(Util.solicitarNumDouble("Valor do plano:"));
         if (banco_plano.adicionarPlano(plano)) {

@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import com.example.dto.CartaoDto;
 import com.example.dto.PlanoDto;
+import com.example.tabelas.Planos;
 import com.example.util.Conexao;
 
 public class PlanosUtils {
@@ -104,12 +105,13 @@ public class PlanosUtils {
 
     public boolean adicionarPlano(PlanoDto plano) {
 
-        String sql = "INSERT INTO planos (nome, mensalidade) VALUES (?, ?)";
+        String sql = "INSERT INTO planos (codigo, nome, mensalidade) VALUES (?, ?, ?)";
 
         try (Connection conexao = Conexao.getInstance().getConnection();
                 PreparedStatement statement = conexao.prepareStatement(sql);) {
-            statement.setString(1, plano.getNome());
-            statement.setDouble(2, plano.getMensalidade());
+            statement.setInt(1, plano.getCodigo());
+            statement.setString(2, plano.getNome());
+            statement.setDouble(3, plano.getMensalidade());
             int linhasInseridas = statement.executeUpdate();
             return linhasInseridas > 0;
 
@@ -121,5 +123,4 @@ public class PlanosUtils {
         } 
         return false;
     }
-
 }

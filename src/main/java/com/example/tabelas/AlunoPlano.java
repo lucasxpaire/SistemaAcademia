@@ -67,7 +67,7 @@ public class AlunoPlano {
 
     // }
 
-    private void cadastrarPlano() {
+    public void cadastrarPlano() {
         String cpf = Util.solicitarCpf(" do aluno");
         AlunoDadosDto aluno = bancoAluno.buscarCpf(cpf);
         AlunoPlanoDto aluno_plano = banco.buscarAlunoPlano(cpf);

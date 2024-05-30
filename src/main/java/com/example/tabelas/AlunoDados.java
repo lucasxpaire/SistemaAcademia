@@ -48,7 +48,7 @@ public class AlunoDados {
         }
     }
 
-    private void incluirAluno() {
+    public void incluirAluno() {
         AlunoDadosDto aluno = new AlunoDadosDto();
         boolean bool;
 
@@ -64,7 +64,7 @@ public class AlunoDados {
         }
     }
 
-    private void removerAluno() {
+    public void removerAluno() {
         String cpf = Util.solicitarCpf(" do aluno a ser removido");
 
         if (banco.buscarCpf(cpf) != null) {
@@ -83,7 +83,7 @@ public class AlunoDados {
         }
     }
 
-    private void listarAlunos() {
+    public void listarAlunos() {
         List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             System.out.println("Alunos");
@@ -98,7 +98,7 @@ public class AlunoDados {
 
     }
 
-    private void buscarAlunoNome() {
+    public void buscarAlunoNome() {
         List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             String nome = Util.solicitarNome(" do aluno");
@@ -119,7 +119,7 @@ public class AlunoDados {
         }
     }
 
-    private void buscarAlunoCpf() {
+    public void buscarAlunoCpf() {
         List<AlunoDadosDto> lista_alunos = banco.listarAlunos();
         if (lista_alunos.size() > 0) {
             String cpf = Util.solicitarCpf(" do aluno");

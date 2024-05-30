@@ -6,7 +6,7 @@ import com.example.util.Util;
 //import classes.Exercicios;
 //import classes.Planos;
 
-public class Menu {
+public class meenu {
     // Variáveis para a conexão com o banco de dados
     // private static final String URL =
     // "jdbc:postgresql://localhost:5432/sistemaAcademia";
