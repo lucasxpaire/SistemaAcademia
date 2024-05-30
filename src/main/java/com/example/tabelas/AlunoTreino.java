@@ -7,6 +7,7 @@ import com.example.dto.AlunoListaPresencaDto;
 import com.example.dto.AlunoTreinoDto;
 import com.example.dto.AlunoTreinoExercicioDto;
 import com.example.dto.ExerciciosDto;
+import com.example.dto.AlunoPlanoDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,12 +15,14 @@ import java.util.List;
 import com.example.dao.AlunoDadosDao;
 import com.example.dao.AlunoListaPresencaDao;
 import com.example.dao.AlunoTreinoDao;
+import com.example.dao.AlunoPlanoDao;
 
 public class AlunoTreino {
 
     AlunoDadosDao banco_dados = new AlunoDadosDao();
     ExerciciosUtils banco_exercicios = new ExerciciosUtils();
     AlunoTreinoDao banco_treino = new AlunoTreinoDao();
+    AlunoPlanoDao banco_plano = new AlunoPlanoDao();
 
     public void treino() {
         System.out.println("Qual operacao com instrutor deseja realizar:");
@@ -81,13 +84,13 @@ public class AlunoTreino {
             if (banco_exercicios.procurarExercicio(num) != null) {
                 if (banco_treino.buscarExercicioId(aluno_treino.getId_treino(), num) == null) {
                     AlunoTreinoExercicioDto aluno = new AlunoTreinoExercicioDto();
-                    aluno.setId_exercicio(aluno_treino.getId_treino());
+                    aluno.setId_treino(aluno_treino.getId_treino());
                     aluno.setId_exercicio(num);
                     aluno.setSeries(Util.solicitarNum("Digite o numero de series:"));
                     aluno.setMin_rep(Util.solicitarNum("Digite o numero minimo de repeticoes:"));
                     aluno.setMax_rep(Util.solicitarNum("Digite o numero maximo de repeticoes:"));
                     aluno.setCarga(Util.solicitarNum("Digite a carga em quilos:"));
-                    aluno.setTempo_descanso(Util.solicitarNum("Digite o tempo de descanso em segundos:"));
+                    aluno.setTempo_descanso(Util.solicitarNum("Digite o tempo de descanso em minutos:"));
                     if (banco_treino.adicionarExercicio(aluno)) {
                         System.out.printf("Exercicio adicionado com sucesso!\n");
                     } else {
@@ -108,26 +111,31 @@ public class AlunoTreino {
         String cpf = Util.solicitarCpf(" do aluno");
         AlunoDadosDto aluno = banco_dados.buscarCpf(cpf);
         if (aluno != null) {
-            AlunoTreinoDto aluno_treino = new AlunoTreinoDto();
-            aluno_treino.setCpf(cpf);
-            aluno_treino.setNome_treino(Util.solicitarNome(" do treino"));
-            int id_treino = banco_treino.incluir(aluno_treino);
-            aluno_treino.setId_treino(id_treino);
+            AlunoPlanoDto aluno_plano = banco_plano.buscarAlunoPlano(cpf);
+            if (aluno_plano != null) {
+                AlunoTreinoDto aluno_treino = new AlunoTreinoDto();
+                aluno_treino.setCpf(cpf);
+                aluno_treino.setNome_treino(Util.solicitarNome(" do treino"));
+                int id_treino = banco_treino.incluir(aluno_treino);
+                aluno_treino.setId_treino(id_treino);
 
-            if (id_treino != -1) {
-                if (montar_treino(aluno_treino)) {
-                    System.out.printf("Treino montado com sucesso!\n");
-                } else {
-                    System.out.printf("O treino nao possui exercicios!\n");
-                    if (banco_treino.remover(id_treino)) {
-                        System.out.printf("Treino excluido!\n");
+                if (id_treino != -1) {
+                    if (montar_treino(aluno_treino)) {
+                        System.out.printf("Treino montado com sucesso!\n");
                     } else {
-                        System.out.printf("Erro ao excluir o treino\n");
+                        System.out.printf("O treino nao possui exercicios!\n");
+                        if (banco_treino.remover(id_treino)) {
+                            System.out.printf("Treino excluido!\n");
+                        } else {
+                            System.out.printf("Erro ao excluir o treino\n");
+                        }
                     }
-                }
 
+                } else {
+                    System.out.printf("Erro ao montar o treino!\n");
+                }
             } else {
-                System.out.printf("Erro ao montar o treino!\n");
+                System.out.printf("O aluno nao possui nenhum plano cadastrado!\n");
             }
 
         } else {
@@ -136,8 +144,8 @@ public class AlunoTreino {
     }
 
     public void mostrarTreino() {
-        int id_treino = Util.solicitarNum("Digite o id do treino:");
         String cpf = Util.solicitarCpf(" do aluno");
+        int id_treino = Util.solicitarNum("Digite o id do treino:");
         AlunoTreinoDto aluno_treino = banco_treino.buscarId(id_treino);
         if (aluno_treino != null && cpf.equals(aluno_treino.getCpf())) {
             List<AlunoTreinoExercicioDto> lista_exercicios = banco_treino.buscarTreino(id_treino);
@@ -147,16 +155,14 @@ public class AlunoTreino {
             System.out.printf("---LISTA DE EXERCICIOS---\n");
             for (AlunoTreinoExercicioDto aluno_exercicio : lista_exercicios) {
                 // treino_exercicio.setId_treino(resultset.getInt("ID_TREINO"));
-                ExerciciosDto exercicio = banco_exercicios.procurarExercicio(aluno_exercicio.getId_treino());
-
-                System.out.printf("ID treino: %d\n", aluno_exercicio.getId_treino());
+                ExerciciosDto exercicio = banco_exercicios.procurarExercicio(aluno_exercicio.getId_exercicio());
                 System.out.printf("Exercicio: %s\n", exercicio.getNome());
                 System.out.printf("Musculos ativos: %s\n", exercicio.getMusculosAtivos());
                 System.out.printf("Series: %d\n", aluno_exercicio.getSeries());
                 System.out.printf("Maximo de repeticoes: %d\n", aluno_exercicio.getMax_rep());
                 System.out.printf("Minimo de repeticoes: %d\n", aluno_exercicio.getMin_rep());
                 System.out.printf("Carga: %d kg\n", aluno_exercicio.getCarga());
-                System.out.printf("Tempo de descanso: %.2f segundos\n", aluno_exercicio.getTempo_descanso());
+                System.out.printf("Tempo de descanso: %d minuto(s)\n\n", aluno_exercicio.getTempo_descanso());
             }
         } else {
             System.out.printf("O aluno nao possui esse treino ou nao esta cadastrado!\n");
@@ -184,10 +190,13 @@ public class AlunoTreino {
     }
 
     private AlunoTreinoExercicioDto alterar(AlunoTreinoExercicioDto aluno_treino_exercicio) {
-        System.out.println("1 - EXERCICIO");
-        System.out.println("2 - SERIES");
-        System.out.println("3 - MINIMO DE REPETICOES");
-        System.out.println("4 - MAXIMO DE REPETICOES");
+
+        AlunoTreinoExercicioDto aluno_treino_exercicio_clonado = aluno_treino_exercicio.clone();
+
+        System.out.println("1 - EXERCICIO!");
+        System.out.println("2 - SERIES!");
+        System.out.println("3 - MINIMO DE REPETICOES!");
+        System.out.println("4 - MAXIMO DE REPETICOES!");
         System.out.println("5 - CARGA!");
         System.out.println("6 - TEMPO DE DESCANSO!");
         System.out.println("7 - CANCELAR!");
@@ -196,34 +205,37 @@ public class AlunoTreino {
         switch (alternativas) {
             case 1:
                 int num;
-                do {
-                    num = Util.solicitarNum("Digite o numero do exercicio");
-                    if (banco_exercicios.procurarExercicio(num) != null) {
-                        aluno_treino_exercicio.setId_exercicio(num);
+                num = Util.solicitarNum("Digite o numero do exercicio:");
+                if (banco_exercicios.procurarExercicio(num) != null) {
+                    if (banco_treino.buscarExercicioId(aluno_treino_exercicio_clonado.getId_treino(), num) == null) {
+                        aluno_treino_exercicio_clonado.setId_exercicio(num);
                     } else {
-                        System.out.printf("Exercicio nao existe!\n");
+                        System.out.printf("Exercicio ja pertence ao treino!\n");
                     }
-                } while (banco_exercicios.procurarExercicio(num) == null);
+                } else {
+                    System.out.printf("Exercicio nao existe!\n");
+                }
                 break;
             case 2:
-                aluno_treino_exercicio.setSeries(Util.solicitarNum("Digite o numero de series:"));
+                aluno_treino_exercicio_clonado.setSeries(Util.solicitarNum("Digite o numero de series:"));
                 break;
             case 3:
-                aluno_treino_exercicio.setMin_rep(Util.solicitarNum("Digite o numero minimo de repeticoes:"));
+                aluno_treino_exercicio_clonado.setMin_rep(Util.solicitarNum("Digite o numero minimo de repeticoes:"));
                 break;
             case 4:
-                aluno_treino_exercicio.setMax_rep(Util.solicitarNum("Digite o numero maximo de repeticoes:"));
+                aluno_treino_exercicio_clonado.setMax_rep(Util.solicitarNum("Digite o numero maximo de repeticoes:"));
                 break;
             case 5:
-                aluno_treino_exercicio.setCarga(Util.solicitarNum("Digite a carga em quilos:"));
+                aluno_treino_exercicio_clonado.setCarga(Util.solicitarNum("Digite a carga em quilos:"));
                 break;
             case 6:
-                aluno_treino_exercicio.setTempo_descanso(Util.solicitarNum("Digite o tempo de descanso em minutos:"));
+                aluno_treino_exercicio_clonado
+                        .setTempo_descanso(Util.solicitarNum("Digite o tempo de descanso em minutos:"));
                 break;
             default:
                 return null;
         }
-        return aluno_treino_exercicio;
+        return aluno_treino_exercicio_clonado;
     }
 
     public void alterarTreino() {
@@ -238,19 +250,23 @@ public class AlunoTreino {
             AlunoTreinoExercicioDto aluno_treino_exercicio = banco_treino.buscarExercicioId(id_treino, id_exercicio);
 
             if (aluno_treino_exercicio != null && cpf.equals(aluno_treino.getCpf())) {
+
+                System.out.println(aluno_treino_exercicio.getId_exercicio());
                 AlunoTreinoExercicioDto aluno_treino_atualizado = alterar(aluno_treino_exercicio);
 
-                if (aluno_treino_atualizado != null) {
-                    if (banco_treino.alterar(aluno_treino_atualizado)) {
+                if (aluno_treino_atualizado != null && aluno_treino_atualizado != null
+                        && !aluno_treino_exercicio.equals(aluno_treino_atualizado)) {
+
+                    if (banco_treino.alterar(aluno_treino_atualizado, aluno_treino_exercicio.getId_exercicio())) {
                         System.out.printf("Treino alterado com sucesso!\n");
                     } else {
-                        System.out.printf("Erro ao alterado o treino\n");
+                        System.out.printf("Erro ao alterar o treino\n");
                     }
                 } else {
                     System.out.printf("Alteracao cancelada!\n");
                 }
             } else {
-                System.out.printf("Treino nao encontrado!\n");
+                System.out.printf("Exercicio nao encontrado!\n");
             }
         } else {
             System.out.printf("Aluno nao cadastrado!\n");
@@ -270,11 +286,16 @@ public class AlunoTreino {
 
             if (aluno_treino_exercicio != null) {
                 if (cpf.equals(aluno_treino.getCpf())) {
+                    int antiga_carga = aluno_treino_exercicio.getCarga();
                     aluno_treino_exercicio.setCarga(Util.solicitarNum("Digite o peso da nova carga em kg:"));
-                    if (banco_treino.alterar(aluno_treino_exercicio)) {
-                        System.out.printf("Treino alterado com sucesso!\n");
+                    if (antiga_carga != aluno_treino_exercicio.getCarga()) {
+                        if (banco_treino.alterar(aluno_treino_exercicio, aluno_treino_exercicio.getId_exercicio())) {
+                            System.out.printf("Treino alterado com sucesso!\n");
+                        } else {
+                            System.out.printf("Erro ao alterado o treino\n");
+                        }
                     } else {
-                        System.out.printf("Erro ao alterado o treino\n");
+                        System.out.printf("Carga nao alterada!\n");
                     }
                 } else {
                     System.out.printf("O treino nao pertece ao aluno %s!\n", aluno.getNome());
@@ -312,8 +333,8 @@ public class AlunoTreino {
     }
 
     public void realizarTreino() {
-        int id_treino = Util.solicitarNum("Digite o id do treino:");
         String cpf = Util.solicitarCpf(" do aluno");
+        int id_treino = Util.solicitarNum("Digite o id do treino:");
         AlunoTreinoDto aluno_treino = banco_treino.buscarId(id_treino);
         if (aluno_treino != null && cpf.equals(aluno_treino.getCpf())) {
             List<AlunoTreinoExercicioDto> lista_exercicios = banco_treino.buscarTreino(id_treino);
@@ -323,16 +344,19 @@ public class AlunoTreino {
             System.out.printf("---LISTA DE EXERCICIOS---");
             for (int i = 0; i < lista_exercicios.size(); i++) {
 
-                ExerciciosDto exercicio = banco_exercicios.procurarExercicio(lista_exercicios.get(i).getId_treino());
+                ExerciciosDto exercicio = banco_exercicios.procurarExercicio(lista_exercicios.get(i).getId_exercicio());
 
                 System.out.printf("ID treino: %d\n", lista_exercicios.get(i).getId_treino());
                 System.out.printf("Exercicio: %s\n", exercicio.getNome());
                 System.out.printf("Musculos ativos: %s\n", exercicio.getMusculosAtivos());
                 System.out.printf("Series: %d\n", lista_exercicios.get(i).getSeries());
-                System.out.printf("Maximo de repeticoes: %d\n", lista_exercicios.get(i).getMax_rep());
-                System.out.printf("Minimo de repeticoes: %d\n", lista_exercicios.get(i).getMin_rep());
+                System.out.printf("Maximo de repeticoes: %d\n",
+                        lista_exercicios.get(i).getMax_rep());
+                System.out.printf("Minimo de repeticoes: %d\n",
+                        lista_exercicios.get(i).getMin_rep());
                 System.out.printf("Carga: %d kg\n", lista_exercicios.get(i).getCarga());
-                System.out.printf("Tempo de descanso: %.2f segundos\n", lista_exercicios.get(i).getTempo_descanso());
+                System.out.printf("Tempo de descanso: %d segundos\n\n",
+                        lista_exercicios.get(i).getTempo_descanso());
 
                 System.out.printf("1 - Exercicio concluido!\n");
                 System.out.printf("2 - Encerrar Treino!!\n");
@@ -341,9 +365,7 @@ public class AlunoTreino {
                         System.out.printf("Treino concluido com sucesso!\n");
                         AlunoListaPresencaDao banco_presenca = new AlunoListaPresencaDao();
                         AlunoListaPresencaDto presenca = new AlunoListaPresencaDto();
-
-                        LocalDate data = Util.solicitarData("Data do treino");
-                        presenca.setData_treino(data);
+                        presenca.setData_treino(LocalDate.now());
                         presenca.setId_treino(lista_exercicios.get(i).getId_treino());
                         presenca.setCpf(cpf);
                         if (banco_presenca.incluir(presenca)) {
@@ -352,16 +374,17 @@ public class AlunoTreino {
                             System.out.printf("Erro ao registrar o treino!\n");
                         }
                     }
+                    
                 } else {
                     System.out.printf("Treino encerrado!\n");
                     System.out.printf("O treino nao foi registrado!\n");
                     break;
                 }
+                System.out.printf("\n\n");
             }
 
         } else {
             System.out.printf("O aluno nao possui esse treino!\n");
         }
     }
-
 }

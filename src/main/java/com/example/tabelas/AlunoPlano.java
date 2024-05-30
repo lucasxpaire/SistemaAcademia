@@ -1,4 +1,5 @@
 package com.example.tabelas;
+
 import com.example.util.Util;
 
 import java.time.LocalDate;
@@ -76,7 +77,7 @@ public class AlunoPlano {
                     Planos.exibirPlanos();
                     int id_cartao = cadastrarCartao();
                     PlanoDto plano = Planos.solicitarPlano();
-                    
+
                     aluno_plano = new AlunoPlanoDto();
                     aluno_plano.setData_inicio(LocalDate.now());
                     aluno_plano.setId_cartao(id_cartao);
@@ -126,4 +127,13 @@ public class AlunoPlano {
         }
     }
 
+    // private AlunoPlanoDto buscarPlanoAluno(String cpf) {
+
+    //     AlunoDadosDto aluno = bancoAluno.buscarCpf(cpf);
+    //     AlunoPlanoDto aluno_plano = null;
+    //     if (aluno != null) {
+    //         aluno_plano = banco.buscarAlunoPlano(cpf);
+    //     }
+    //     return aluno_plano;
+    // }
 }

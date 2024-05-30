@@ -33,7 +33,7 @@ public class PlanoDto {
     public String toString() {
         return " " + codigo +
                 " - " + nome +
-                " - R$ " + mensalidade;
+                " - R$ " + String.format("%.2f", mensalidade);
     }
-    
+
 }

@@ -108,19 +108,24 @@ public class AlunoTreinoDao {
         return lista_alunos;
     }
 
-    public boolean alterar(AlunoTreinoExercicioDto treino) {
-        String sql = "UPDATE ALUNO_TREINO_EXERCICIO SET ID_EXERCICIO = ?, SERIES = ?, REP_MIN = ?, REP_MAX = ?, CARGA = ?, TEMPO_DE_DESCANSO = ? WHERE ID_TREINO = ?";
+    public boolean alterar(AlunoTreinoExercicioDto treino, int id_exercicio) {
+        String sql = "UPDATE ALUNO_TREINO_EXERCICIO SET ID_EXERCICIO = ?, SERIES = ?, REP_MIN = ?, REP_MAX = ?, CARGA = ?, TEMPO_DE_DESCANSO = ? WHERE ID_TREINO = ? AND ID_EXERCICIO = ?";
 
         try (Connection conexao = Conexao.getInstance().getConnection();
                 PreparedStatement statement = conexao.prepareStatement(sql);) {
+                    
             statement.setInt(1, treino.getId_exercicio());
-            statement.setInt(1, treino.getSeries());
-            statement.setInt(1, treino.getMin_rep());
-            statement.setInt(1, treino.getMin_rep());
-            statement.setDouble(1, treino.getCarga());
-            statement.setInt(1, treino.getTempo_descanso());
-            statement.setInt(1, treino.getId_treino());
+            statement.setInt(2, treino.getSeries());
+            statement.setInt(3, treino.getMin_rep());
+            statement.setInt(4, treino.getMax_rep());
+            statement.setInt(5, treino.getCarga());
+            statement.setInt(6, treino.getTempo_descanso());
+            statement.setInt(7, treino.getId_treino());
+            statement.setInt(8, treino.getId_exercicio());
+            statement.setInt(8, id_exercicio);
+
             int linhas_afetadas = statement.executeUpdate();
+            System.out.println(linhas_afetadas);
             return linhas_afetadas > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,7 +199,7 @@ public class AlunoTreinoDao {
             statement.setInt(3, alunoDto.getSeries());
             statement.setInt(4, alunoDto.getMax_rep());
             statement.setInt(5, alunoDto.getMin_rep());
-            statement.setDouble(6, alunoDto.getCarga());
+            statement.setInt(6, alunoDto.getCarga());
             statement.setInt(7, alunoDto.getTempo_descanso());
 
             int linhas_afetadas = statement.executeUpdate();
