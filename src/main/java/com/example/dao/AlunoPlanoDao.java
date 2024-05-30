@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
-// import com.example.dto.AlunoDadosDto;
 import com.example.dto.AlunoPlanoDto;
 import com.example.util.Conexao;
 

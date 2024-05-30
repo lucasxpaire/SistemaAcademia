@@ -59,7 +59,6 @@ public class PlanosUtils {
                 PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             statement.setInt(1, codigo);
-            // Executa a consulta e obtém o ResultSet
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     plano = new PlanoDto();
@@ -78,7 +77,6 @@ public class PlanosUtils {
 
     public List<PlanoDto> listaPlanos() {
         List<PlanoDto> listaPlanos = new ArrayList<>();
-        // Obter os planos do banco de dados
         String sql = "SELECT codigo, nome, mensalidade FROM planos";
 
         try (Connection conexao = Conexao.getInstance().getConnection();

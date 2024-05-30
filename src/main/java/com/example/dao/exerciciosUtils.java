@@ -125,7 +125,6 @@ public class ExerciciosUtils {
         }
     }
 
-        //inserir exercicios no banco de dados através de arquivo
     public static void inserirExercicios(List<ExerciciosDto> exercicios) {
         String sql = "INSERT INTO exercicios (nome, musculosativos, numero) VALUES (?, ?, ?)";
         Connection conexao = null;

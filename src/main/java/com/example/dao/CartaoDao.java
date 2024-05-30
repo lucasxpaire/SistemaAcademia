@@ -21,7 +21,6 @@ public class CartaoDao {
         try {
             conexao = Conexao.getInstance().getConnection();
             if (conexao != null) {
-                // Configurar o PreparedStatement para retornar as chaves geradas
                 try (PreparedStatement statement = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                     statement.setString(1, cartao.getNome().toUpperCase(Locale.ENGLISH));
                     statement.setString(2, cartao.getNumero());
@@ -29,10 +28,9 @@ public class CartaoDao {
                     statement.setString(4, cartao.getCvv());
                     statement.executeUpdate();
                     
-                    // Obter as chaves geradas
                     try (ResultSet resultSet = statement.getGeneratedKeys()) {
                         if (resultSet.next()) {
-                            id_cartao = resultSet.getInt(1); // A primeira coluna contém a chave gerada
+                            id_cartao = resultSet.getInt(1); 
                         }
                     }
                 }

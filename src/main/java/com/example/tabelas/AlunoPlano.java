@@ -90,14 +90,4 @@ public class AlunoPlano {
 
         }
     }
-
-    // private AlunoPlanoDto buscarPlanoAluno(String cpf) {
-
-    //     AlunoDadosDto aluno = bancoAluno.buscarCpf(cpf);
-    //     AlunoPlanoDto aluno_plano = null;
-    //     if (aluno != null) {
-    //         aluno_plano = banco.buscarAlunoPlano(cpf);
-    //     }
-    //     return aluno_plano;
-    // }
 }

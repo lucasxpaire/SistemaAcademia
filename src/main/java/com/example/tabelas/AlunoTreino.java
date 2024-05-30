@@ -106,7 +106,7 @@ public class AlunoTreino {
             System.out.printf("%d \n", aluno_treino.getId_treino());
             System.out.printf("---LISTA DE EXERCICIOS---\n");
             for (AlunoTreinoExercicioDto aluno_exercicio : lista_exercicios) {
-                // treino_exercicio.setId_treino(resultset.getInt("ID_TREINO"));
+
                 ExerciciosDto exercicio = banco_exercicios.procurarExercicio(aluno_exercicio.getId_exercicio());
                 System.out.printf("Exercicio: %s\n", exercicio.getNome());
                 System.out.printf("Musculos ativos: %s\n", exercicio.getMusculosAtivos());
