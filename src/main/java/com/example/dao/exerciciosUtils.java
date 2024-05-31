@@ -140,7 +140,6 @@ public class ExerciciosUtils {
     
                 statement.executeUpdate();
             }
-            System.out.println("Exercícios inseridos com sucesso!");
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Erro ao inserir exercicio: " + e.getMessage());
         } finally {

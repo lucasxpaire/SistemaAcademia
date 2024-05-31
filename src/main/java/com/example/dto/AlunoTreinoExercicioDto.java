@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class AlunoTreinoExercicioDto implements Cloneable {
@@ -67,6 +68,16 @@ public class AlunoTreinoExercicioDto implements Cloneable {
         this.tempo_descanso = tempo_descanso;
     }
 
+    private LocalDate dataTreino;
+
+    public LocalDate getDataTreino() {
+        return dataTreino;
+    }
+
+    public void setDataTreino(LocalDate dataTreino) {
+        this.dataTreino = dataTreino;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -95,4 +106,5 @@ public class AlunoTreinoExercicioDto implements Cloneable {
     public int hashCode() {
         return Objects.hash(id_treino, id_exercicio, series, min_rep, max_rep, carga, tempo_descanso);
     }
+
 }

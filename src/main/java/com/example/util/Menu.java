@@ -1,6 +1,11 @@
 package com.example.util;
 
 
+import java.sql.Date;
+import java.time.LocalDate;
+
+import com.example.dao.AlunoListaPresencaDao;
+import com.example.dao.AlunoTreinoDao;
 import com.example.tabelas.AlunoDados;
 import com.example.tabelas.AlunoPlano;
 import com.example.tabelas.AlunoTreino;
@@ -28,12 +33,11 @@ public class Menu {
         while (!sair) {
             System.out.println("------ Menu Alunos ------");
             System.out.println("1. Cadastrar Aluno");
-            System.out.println("2. Alterar Dados do Aluno");
-            System.out.println("3. Excluir Aluno");
-            System.out.println("4. Listar Alunos");
-            System.out.println("5. Buscar Aluno por CPF");
-            System.out.println("6. Buscar Aluno por Nome");
-            System.out.println("7. Voltar ao Menu Principal");
+            System.out.println("2. Excluir Aluno");
+            System.out.println("3. Listar Alunos");
+            System.out.println("4. Buscar Aluno por CPF");
+            System.out.println("5. Buscar Aluno por Nome");
+            System.out.println("6. Voltar ao Menu Principal");
             int opcao = Util.solicitarAlternativas(1, 6, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
 
             switch (opcao) {
@@ -228,23 +232,31 @@ public class Menu {
         boolean sair = false;
         while (!sair) {
             System.out.println("------ Menu Relatórios ------");
-            System.out.println("1. Relatório de Alunos");
-            System.out.println("2. Relatório de Planos");
-            System.out.println("3. Relatório de Exercícios");
-            System.out.println("4. Voltar ao Menu Principal");
-            int opcao = Util.solicitarAlternativas(1, 4, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
+            System.out.println("1. Relatório de presença de alunos");
+            System.out.println("2. Relatório de Evolução de Carga de Exercício");
+            System.out.println("3. Voltar ao Menu Principal");
+            int opcao = Util.solicitarAlternativas(1, 3, "DIGITE O NUMERO QUE DESEJA REALIZAR:");
 
             switch (opcao) {
                 case 1:
-                    // Ação: Relatório de Alunos
+                    System.out.println("Digite o CPF do aluno:");
+                    String cpfPresenca = Util.solicitarString("CPF: ");
+                    System.out.println("Digite a data de início do intervalo (YYYY-MM-DD):");
+                    LocalDate dataInicioPresenca = Util.solicitarData("Data de início: ");
+                    System.out.println("Digite a data de fim do intervalo (YYYY-MM-DD):");
+                    LocalDate dataFimPresenca = Util.solicitarData("Data de fim: ");
+                    AlunoListaPresencaDao alunoPresencaDao = new AlunoListaPresencaDao();
+                    alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca), Date.valueOf(dataFimPresenca));
                     break;
                 case 2:
-                    // Ação: Relatório de Planos
+                    System.out.println("Digite o CPF do aluno:");
+                    String cpfEvolucao = Util.solicitarString("CPF: ");
+                    System.out.println("Digite o nome do exercício:");
+                    String nomeExercicio = Util.solicitarString("Exercício: ");
+                    AlunoTreinoDao alunoEvolucaoDao = new AlunoTreinoDao();
+                    alunoEvolucaoDao.relatorioEvolucaoCargaExercicio(cpfEvolucao, nomeExercicio);
                     break;
                 case 3:
-                    // Ação: Relatório de Exercícios
-                    break;
-                case 4:
                     sair = true;
                     break;
                 default:

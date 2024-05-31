@@ -9,7 +9,7 @@ public class Main {
         boolean sair = false;
         // Dependendo de como tu clonou o caminho pode ser assim:
         // src/main/exercicios.csv
-        String caminhoArquivo = "SistemaAcademia/src/main/exercicios.csv";
+        String caminhoArquivo = "src/main/exercicios.csv";
         ExerciciosUtils.inicializarExerciciosCSV(caminhoArquivo);
 
         while (!sair) {
@@ -36,7 +36,7 @@ public class Main {
                     menu.menuPlanos();
                     break;
                 case 7:
-                    // menu relatorio
+                    menu.menuRelatorios();
                     break;
                 case 8:
                     sair = true;
