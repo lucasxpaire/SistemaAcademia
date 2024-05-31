@@ -241,9 +241,9 @@ public class Menu {
                 case 1:
                     System.out.println("Digite o CPF do aluno:");
                     String cpfPresenca = Util.solicitarString("CPF: ");
-                    System.out.println("Digite a data de início do intervalo (YYYY-MM-DD):");
+                    System.out.println("Digite a data de início do intervalo:");
                     LocalDate dataInicioPresenca = Util.solicitarData("Data de início: ");
-                    System.out.println("Digite a data de fim do intervalo (YYYY-MM-DD):");
+                    System.out.println("Digite a data de fim do intervalo:");
                     LocalDate dataFimPresenca = Util.solicitarData("Data de fim: ");
                     AlunoListaPresencaDao alunoPresencaDao = new AlunoListaPresencaDao();
                     alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca), Date.valueOf(dataFimPresenca));
