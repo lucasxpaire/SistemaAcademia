@@ -246,8 +246,7 @@ public class Menu {
                     System.out.println("Digite a data de fim do intervalo:");
                     LocalDate dataFimPresenca = Util.solicitarData("Data de fim: ");
                     AlunoListaPresencaDao alunoPresencaDao = new AlunoListaPresencaDao();
-                    alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca),
-                            Date.valueOf(dataFimPresenca));
+                    alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca), Date.valueOf(dataFimPresenca));
                     break;
                 case 2:
                     AlunoTreino aluno_treino = new AlunoTreino();
