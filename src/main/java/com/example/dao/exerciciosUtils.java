@@ -1,8 +1,5 @@
 package com.example.dao;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -145,36 +142,6 @@ public class ExerciciosUtils {
         } finally {
             Conexao.desconectarBancoDados(conexao);
         }
-    }
-
-    private static List<ExerciciosDto> lerExerciciosCSV(String caminho) {
-        List<ExerciciosDto> exercicios = new ArrayList<>();
-        String line;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
-            while ((line = br.readLine()) != null) {
-                String[] dados = line.split(";");
-                if (dados.length == 3) {
-                    String nome = dados[0].trim();
-                    String musculosAtivos = dados[1].trim();
-                    int numero = Integer.parseInt(dados[2].trim());
-                    ExerciciosDto exercicio = new ExerciciosDto();
-                    exercicio.setNome(nome);
-                    exercicio.setMusculosAtivos(musculosAtivos);
-                    exercicio.setNumero(numero);
-                    exercicios.add(exercicio);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo CSV: " + e.getMessage());
-        }
-
-        return exercicios;
-    }
-
-    public static void inicializarExerciciosCSV(String caminho){
-        List<ExerciciosDto> exercicios = lerExerciciosCSV(caminho);    
-        inserirExercicios(exercicios);
     }
 
 }

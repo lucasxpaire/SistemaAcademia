@@ -1,16 +1,11 @@
 package com.example;
 
-import com.example.dao.ExerciciosUtils;
 import com.example.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
         boolean sair = false;
-        // Dependendo de como tu clonou o caminho pode ser assim:
-        // src/main/exercicios.csv
-        String caminhoArquivo = "src/main/exercicios.csv";
-        ExerciciosUtils.inicializarExerciciosCSV(caminhoArquivo);
 
         while (!sair) {
             menu.exibirMenuPrincipal();

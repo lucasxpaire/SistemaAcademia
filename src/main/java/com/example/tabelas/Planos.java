@@ -1,4 +1,3 @@
-//classe planos
 package com.example.tabelas;
 
 import java.util.List;

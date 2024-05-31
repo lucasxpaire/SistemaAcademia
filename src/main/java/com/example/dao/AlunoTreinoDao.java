@@ -11,7 +11,6 @@ import java.util.Locale;
 import com.example.dto.AlunoTreinoDto;
 import com.example.dto.AlunoTreinoExercicioDto;
 import com.example.util.Conexao;
-import com.example.util.Util;
 
 public class AlunoTreinoDao {
 
