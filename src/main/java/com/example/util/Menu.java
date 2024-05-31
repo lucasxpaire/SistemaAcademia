@@ -1,9 +1,9 @@
 package com.example.util;
 
-
 import java.sql.Date;
 import java.time.LocalDate;
 
+import com.example.dao.AlunoCargaDao;
 import com.example.dao.AlunoListaPresencaDao;
 import com.example.dao.AlunoTreinoDao;
 import com.example.tabelas.AlunoDados;
@@ -24,7 +24,7 @@ public class Menu {
         System.out.println("6. Planos");
         System.out.println("7. Relatórios");
         System.out.println("8. Sair");
-        
+
     }
 
     public void menuAlunosDados() {
@@ -246,15 +246,12 @@ public class Menu {
                     System.out.println("Digite a data de fim do intervalo:");
                     LocalDate dataFimPresenca = Util.solicitarData("Data de fim: ");
                     AlunoListaPresencaDao alunoPresencaDao = new AlunoListaPresencaDao();
-                    alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca), Date.valueOf(dataFimPresenca));
+                    alunoPresencaDao.relatorioPresencaAlunoIntervalo(cpfPresenca, Date.valueOf(dataInicioPresenca),
+                            Date.valueOf(dataFimPresenca));
                     break;
                 case 2:
-                    System.out.println("Digite o CPF do aluno:");
-                    String cpfEvolucao = Util.solicitarString("CPF: ");
-                    System.out.println("Digite o nome do exercício:");
-                    String nomeExercicio = Util.solicitarString("Exercício: ");
-                    AlunoTreinoDao alunoEvolucaoDao = new AlunoTreinoDao();
-                    alunoEvolucaoDao.relatorioEvolucaoCargaExercicio(cpfEvolucao, nomeExercicio);
+                    AlunoTreino aluno_treino = new AlunoTreino();
+                    aluno_treino.relatorioCarga();
                     break;
                 case 3:
                     sair = true;
