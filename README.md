@@ -1,5 +1,3 @@
------
-
 # Sistema de Gerenciamento de Academia
 
 Um sistema em Java desenvolvido para auxiliar no gerenciamento de uma academia. O software permite o cadastro de alunos, instrutores, gerenciamento de planos, criação de fichas de treino personalizadas e geração de relatórios de frequência e evolução de carga.
