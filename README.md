@@ -1,7 +1,3 @@
-Com base na análise dos arquivos enviados (código fonte Java, configurações do Maven e scripts SQL), elaborei um arquivo `README.md` completo para o seu projeto **SistemaAcademia**.
-
-Ele descreve as funcionalidades, tecnologias e, o mais importante, como configurar o banco de dados PostgreSQL necessário para rodar o sistema.
-
 -----
 
 # Sistema de Gerenciamento de Academia
